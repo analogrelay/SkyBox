@@ -1,0 +1,1 @@
+powershell -ExecutionPolicy Unrestricted -NoLogo -NoExit -NoProfile -File "%~dp0Start-SkyBox.ps1"
