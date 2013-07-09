@@ -1,0 +1,1 @@
+Write-Host -ForegroundColor Cyan "**** Installing SkyBox ****"
