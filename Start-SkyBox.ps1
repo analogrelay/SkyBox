@@ -83,7 +83,7 @@ if(!(Test-Path "$RDKRoot\.installed") -or ((cat "$RDKRoot\.installed") -ne "YES"
 	"YES" > "$RDKRoot\.installed"
 }
 
-# Install Chef
+# Install Puppet
 function EnsureGem($gem, $version) {
 	$result = @(gem list $gem --local | where { ($_.Trim().Length -gt 0) -and ($_ -ne "*** LOCAL GEMS ***") })
 	if($result.Length -lt 1) {
