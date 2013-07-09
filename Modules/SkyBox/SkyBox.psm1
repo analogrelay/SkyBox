@@ -31,6 +31,20 @@ function InstallChocolatey {
 	[Environment]::SetEnvironmentVariable("ChocolateyInstall", $SkyBox.Apps, [System.EnvironmentVariableTarget]::User)
 	$script = (New-Object System.Net.WebClient).DownloadString("https://chocolatey.org/install.ps1")
 	Invoke-Expression $script
+
+	# Patch the source
+	$SkyBoxSource = "https://www.myget.org/F/skybox/"
+	$config = @"
+<?xml version="1.0"?>
+<chocolatey>
+    <useNuGetForSources>false</useNuGetForSources>
+    <sources>
+        <source id="skybox" value="$SkyBoxSource" />
+    </sources>
+</chocolatey>
+"@
+	$config | Out-File -Encoding ASCII -FilePath (Join-Path $SkyBox.Apps "chocolateyinstall\chocolatey.config")
+
 	Write-Host -Foreground Green "**** Configured Chocolatey ****"
 }
 
@@ -54,11 +68,11 @@ if(!(Get-Command -ErrorAction SilentlyContinue chocolatey)) {
 }
 
 # Install Git, since it's a core package
-if(!(Get-Command -ErrorAction SilentlyContinue git)) {
-	Write-Host -ForegroundColor Yellow "**** Installing 'git' ****"
-	cinstm git.commandline
-	Write-Host -ForegroundColor Green "**** Installed 'git' ****"
-}
+#if(!(Get-Command -ErrorAction SilentlyContinue git)) {
+	#Write-Host -ForegroundColor Yellow "**** Installing 'git' ****"
+	#cinstm git.commandline
+	#Write-Host -ForegroundColor Green "**** Installed 'git' ****"
+#}
 
 # Load Public Functions
 Get-ChildItem (Join-Path $PsScriptRoot "Functions") | ForEach-Object {
